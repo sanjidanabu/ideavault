@@ -1,5 +1,9 @@
 "use client"
 
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AddIdeaPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -8,20 +12,47 @@ const AddIdeaPage = () => {
     const idea = Object.fromEntries(formData.entries())
     console.log(idea)
 
-   const res = await fetch('http://localhost:5000/ideas', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(idea)
-    })
+    try {
+      const res = await fetch('http://localhost:5000/ideas', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(idea)
+      })
 
-    const data = await res.json()
-    console.log(data)
+      if (res.ok) {
+        const data = await res.json()
+        console.log(data)
+        
+       
+        toast.success('Startup idea submitted successfully!', {
+          position: "top-right",
+          autoClose: 3000,
+        })
+        e.target.reset() 
+      } else {
+       
+        toast.error('Failed to submit idea. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+        })
+      }
+    } catch (error) {
+      console.error(error)
+     
+      toast.error('Something went wrong. Server might be offline!', {
+        position: "top-right",
+        autoClose: 3000,
+      })
+    }
   }
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+    
+      <ToastContainer />
+
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-10">
         
         <div className="mb-8 border-b border-gray-100 pb-5">
@@ -33,7 +64,6 @@ const AddIdeaPage = () => {
 
         <form onSubmit={onSubmit} className="space-y-6">
           
-        
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Idea Title <span className="text-red-500">*</span>
