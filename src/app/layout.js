@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
           attribute="class" 
           defaultTheme="system" 
           enableSystem
-          disableTransitionOnChange
+          
         >
           <Navbar />
           {children}
