@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 
 const IdeasPage = async () => {
@@ -22,6 +23,7 @@ const IdeasPage = async () => {
                   <img 
                     src={idea.imageUrl} 
                     alt={idea.title}
+                    
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
@@ -57,9 +59,9 @@ const IdeasPage = async () => {
 
              
               <div className="p-5 pt-0">
-                <button className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-center text-sm">
+              <Link href={`/ideas/${idea._id}`}> <button className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 text-center text-sm">
                   View Details
-                </button>
+                </button></Link>
               </div>
             </div>
           ))

@@ -1,16 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
 import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const josefin = Josefin_Sans({
   subsets: ["latin"],
 });
 
@@ -22,15 +16,23 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en" suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased `}
+      lang="en" 
+      suppressHydrationWarning
+      className={`${josefin.className} h-full antialiased`}
     >
-      <body >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navbar/>
+      <body>
+        
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="system" 
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
           {children}
-          <Footer/>
-        </ThemeProvider></body>
+          <Footer />
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
