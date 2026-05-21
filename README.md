@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Startup IdeaVault
 
-## Getting Started
+[Project-er ekti short description ekhane likhun. E.g., Ekti dynamic web application jekhane users tader startup ideas share korte pare.]
 
-First, run the development server:
+## 🚀 Live Demo
+[https://ideavault-mu.vercel.app/]
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔐 Authentication
+- User Registration & Login (Email/Password & Google Login).
+- JWT-based secure authentication.
+- Protected routes for private pages.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 💡 Idea Management
+- **Add Idea:** Users can submit new startup ideas with details (Title, Description, Category, Budget, etc.).
+- **View Ideas:** Browse all ideas in a responsive 3-column grid.
+- **Search & Filter:** Search by title (case-insensitive) and filter by category or date range.
+- **My Ideas:** Update or delete your own submitted ideas.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 💬 Interaction System
+- Commenting system on idea details page.
+- Add, edit, and delete your own comments.
 
-## Learn More
+### 🎨 UI/UX Features
+- Fully responsive design (Mobile, Tablet, Desktop).
+- Dark/Light theme toggle.
+- Modern UI components using [ShadCN / Flowbite / Chakra UI].
+- Dynamic page titles and loading spinners.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Frontend:** [React.js / Next.js, Tailwind CSS, etc.]
+- **Backend:** [Node.js, Express.js]
+- **Database:** [MongoDB]
+- **Authentication:** JWT, Firebase/NextAuth
+- **Deployment:** Vercel / Render
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💻 Installation
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the client repository:**
+   ```bash
+   git clone [Client-repo-link]
+   cd client-folder
+   npm install
+   npm run dev
