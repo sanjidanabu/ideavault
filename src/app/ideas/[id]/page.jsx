@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import CommentsSection from '@/components/CommentsSection'; 
 
 const IdeaDetailsPage = async ({ params }) => {

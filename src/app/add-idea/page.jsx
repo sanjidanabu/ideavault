@@ -1,15 +1,26 @@
 "use client"
 
-
+import { authClient } from '@/lib/auth-client'; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddIdeaPage = () => {
+ 
+  const { data: session } = authClient.useSession();
+
   const onSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
    
-    const idea = Object.fromEntries(formData.entries())
+    
+    const formValues = Object.fromEntries(formData.entries())
+    
+   
+    const idea = {
+      ...formValues,
+      userEmail: session?.user?.email || "anonymous" 
+    }
+
     console.log(idea)
 
     try {
@@ -25,14 +36,12 @@ const AddIdeaPage = () => {
         const data = await res.json()
         console.log(data)
         
-       
         toast.success('Startup idea submitted successfully!', {
           position: "top-right",
           autoClose: 3000,
         })
         e.target.reset() 
       } else {
-       
         toast.error('Failed to submit idea. Please try again.', {
           position: "top-right",
           autoClose: 3000,
@@ -40,7 +49,6 @@ const AddIdeaPage = () => {
       }
     } catch (error) {
       console.error(error)
-     
       toast.error('Something went wrong. Server might be offline!', {
         position: "top-right",
         autoClose: 3000,

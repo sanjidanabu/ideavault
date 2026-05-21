@@ -1,33 +1,42 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { authClient } from '@/lib/auth-client'; 
 
 const CommentsSection = ({ ideaId }) => {
+ 
+  const { data: session } = authClient.useSession();
+
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  
   useEffect(() => {
     fetch(`http://localhost:5000/ideas/${ideaId}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.comments) {
-         
           setComments([...data.comments].reverse());
         }
       })
       .catch(err => console.error("Error fetching comments:", err));
   }, [ideaId]);
 
- 
   const handleAddComment = async (e) => {
     e.preventDefault();
     if (!newComment.trim()) return;
+    
+    
+    if (!session) {
+      alert("Please log in to add a comment!");
+      return;
+    }
 
     const commentObj = {
       id: Date.now(), 
-      userName: "Sanjida Akther", 
+      userName: session?.user?.name || "Anonymous User", 
+      userEmail: session?.user?.email, 
+      userImage: session?.user?.image || "",
       text: newComment,
       timestamp: new Date().toLocaleString('en-US', { 
         hour: 'numeric', 
@@ -51,7 +60,6 @@ const CommentsSection = ({ ideaId }) => {
     }
   };
 
- 
   const handleDelete = async (commentId) => {
     if (confirm("Are you sure you want to delete this comment?")) {
       const res = await fetch(`http://localhost:5000/ideas/${ideaId}/comments/${commentId}`, {
@@ -64,13 +72,11 @@ const CommentsSection = ({ ideaId }) => {
     }
   };
 
-  
   const startEdit = (comment) => {
     setEditingId(comment.id);
     setEditText(comment.text);
   };
 
- 
   const handleSaveEdit = async (commentId) => {
     const res = await fetch(`http://localhost:5000/ideas/${ideaId}/comments/${commentId}`, {
       method: 'PATCH',
@@ -94,18 +100,23 @@ const CommentsSection = ({ ideaId }) => {
         <textarea
           rows="3"
           className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none text-sm text-gray-800"
-          placeholder="Write your constructive feedback or comment here..."
+          placeholder={session ? "Write your constructive feedback or comment here..." : "Please log in to participate in the discussion..."}
+          disabled={!session} 
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
         />
         <div className="flex justify-end mt-2">
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-lg transition-colors duration-200 text-sm">
+          <button 
+            type="submit" 
+            disabled={!session}
+            className={`font-medium py-2 px-5 rounded-lg transition-colors duration-200 text-sm text-white ${session ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
+          >
             Add Comment
           </button>
         </div>
       </form>
 
-    
+      
       <div className="space-y-4">
         {comments.length === 0 ? (
           <p className="text-gray-400 text-sm text-center py-4">No comments yet. Be the first to comment!</p>
@@ -113,12 +124,24 @@ const CommentsSection = ({ ideaId }) => {
           comments.map((comment) => (
             <div key={comment.id} className="p-4 bg-gray-50 rounded-xl border border-gray-100 flex flex-col justify-between">
               <div className="flex justify-between items-start mb-2">
-                <div>
-                  <h4 className="text-sm font-bold text-gray-900">{comment.userName}</h4>
-                  <span className="text-xs text-gray-400">{comment.timestamp}</span>
+                <div className="flex items-center gap-3">
+                 
+                  {comment.userImage ? (
+                    <img src={comment.userImage} alt={comment.userName} className="w-8 h-8 rounded-full object-cover border border-gray-200" />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
+                      {comment.userName?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">{comment.userName}</h4>
+                    <span className="text-xs text-gray-400">{comment.timestamp}</span>
+                  </div>
                 </div>
+                
+                
                 <div className="flex gap-3 text-xs font-semibold text-gray-500">
-                  {editingId !== comment.id && (
+                  {editingId !== comment.id && session?.user?.email === comment.userEmail && (
                     <>
                       <button onClick={() => startEdit(comment)} className="hover:text-blue-600 transition-colors">Edit</button>
                       <button onClick={() => handleDelete(comment.id)} className="hover:text-red-600 transition-colors">Delete</button>
@@ -127,7 +150,6 @@ const CommentsSection = ({ ideaId }) => {
                 </div>
               </div>
 
-            
               {editingId === comment.id ? (
                 <div className="mt-2">
                   <textarea
@@ -142,7 +164,7 @@ const CommentsSection = ({ ideaId }) => {
                   </div>
                 </div>
               ) : (
-                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap">{comment.text}</p>
+                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap pl-11">{comment.text}</p>
               )}
             </div>
           ))
