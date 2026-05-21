@@ -12,7 +12,7 @@ const CommentsSection = ({ ideaId }) => {
   const [editText, setEditText] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/ideas/${ideaId}`)
+    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${ideaId}`)
       .then(res => res.json())
       .then(data => {
         if (data && data.comments) {
@@ -48,7 +48,7 @@ const CommentsSection = ({ ideaId }) => {
       })
     };
 
-    const res = await fetch(`http://localhost:5000/ideas/${ideaId}/comments`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${ideaId}/comments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(commentObj)
@@ -62,7 +62,7 @@ const CommentsSection = ({ ideaId }) => {
 
   const handleDelete = async (commentId) => {
     if (confirm("Are you sure you want to delete this comment?")) {
-      const res = await fetch(`http://localhost:5000/ideas/${ideaId}/comments/${commentId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${ideaId}/comments/${commentId}`, {
         method: 'DELETE'
       });
 
@@ -78,7 +78,7 @@ const CommentsSection = ({ ideaId }) => {
   };
 
   const handleSaveEdit = async (commentId) => {
-    const res = await fetch(`http://localhost:5000/ideas/${ideaId}/comments/${commentId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${ideaId}/comments/${commentId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: editText })

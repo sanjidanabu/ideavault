@@ -19,7 +19,7 @@ const IdeasPage = () => {
         setLoading(true);
         
         const res = await fetch(
-          `http://localhost:5000/ideas?search=${searchTerm}&category=${selectedCategory}`
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas?search=${searchTerm}&category=${selectedCategory}`
         );
         const data = await res.json();
         setIdeas(data);

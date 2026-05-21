@@ -1,12 +1,26 @@
-
-
 import CommentsSection from '@/components/CommentsSection'; 
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
 
 const IdeaDetailsPage = async ({ params }) => {
   const { id } = await params;
 
+  
+  const headerList = await headers();
+  
+  const token = await auth.api.getToken({
+    headers: headerList
+  });
+
+  console.log(JSON.stringify(token, null, 2));
  
-  const res = await fetch(`http://localhost:5000/ideas/${id}`, { cache: 'no-store' });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${id}`, { 
+    cache: 'no-store',
+    headers: {
+      authorization: `bearer ${token?.token}` 
+    }
+  });
+  
   const idea = await res.json();
 
   if (!idea) {

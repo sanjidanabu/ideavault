@@ -25,7 +25,7 @@ const MyIdeasPage = () => {
       if (!session?.user?.email) return;
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:5000/my-ideas?email=${session.user.email}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-ideas?email=${session.user.email}`);
         const data = await res.json();
         setIdeas(data);
       } catch (err) {
@@ -59,7 +59,7 @@ const MyIdeasPage = () => {
     
     setActionLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/ideas/${selectedIdea._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${selectedIdea._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: updateTitle, description: updateDescription })
@@ -86,7 +86,7 @@ const MyIdeasPage = () => {
 
     setActionLoading(true);
     try {
-      const res = await fetch(`http://localhost:5000/ideas/${selectedIdea._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${selectedIdea._id}`, {
         method: 'DELETE'
       });
       const data = await res.json();
