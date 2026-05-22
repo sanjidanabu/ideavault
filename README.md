@@ -31,7 +31,7 @@ concepts collectively.
 ### 🎨 UI/UX Features
 - Fully responsive design (Mobile, Tablet, Desktop).
 - Dark/Light theme toggle.
-- Modern UI components using [ShadCN / Flowbite / Chakra UI].
+- Modern UI components using 
 - Dynamic page titles and loading spinners.
 
 ## 🛠 Tech Stack
@@ -39,8 +39,8 @@ concepts collectively.
 - **Frontend:** [React.js / Next.js, Tailwind CSS, etc.]
 - **Backend:** [Node.js, Express.js]
 - **Database:** [MongoDB]
-- **Authentication:** JWT, Firebase/NextAuth
-- **Deployment:** Vercel / Render
+- **Authentication:** JWT, NextAuth
+- **Deployment:** Vercel 
 
 ## 💻 Installation
 
